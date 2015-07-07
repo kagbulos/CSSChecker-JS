@@ -1,0 +1,139 @@
+.audio-block {
+    border-top: 0;
+    font-family: "Open Sans", arial, sans-serif;
+    padding: 0;
+    margin: 0;
+    font-size: 0.8em;
+    color: #E5E5E5;
+    display: block;
+    height: 100px;
+}
+
+.audio-rock {
+    border-top: 0;
+    font-family: "Open Sans", arial, sans-serif;
+     padding: 0;
+       margin: 0;
+    font-size: 0.8em;
+    color: #e5e5e5;
+     display: block;
+    height: 100px;
+}
+
+ul#example {
+    height: 100px;
+}
+
+div.error {
+    height: 100px;
+}
+
+#testexample {
+    height: 100px;
+}
+
+.audio-dog {
+    border-top-style: none;
+    font-family: palatino, georgia, serif;
+    font-size: 100%;
+    line-height: 1.6;
+    padding-bottom: 2em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-top: 0;
+}
+
+.audio-bird {
+    border-top: 0;
+    font: 100%/1.6 palatino, georgia, serif;
+    padding: 0 1em 2em;
+}
+
+.audio-cat {
+    margin: 0em;
+    padding: 0px;
+}
+
+.audio-fish {
+    margin: 0;
+    padding: 0;
+}
+
+.audio-snail {
+    font-size: .8em;
+    margin: 0.8em;
+}
+
+.audio-marker {
+    color: #eebbcc;
+}
+
+.audio-pencil {
+    color: #ebc;
+}
+
+.error_status {
+    color: #ebc;
+}
+
+.demo-image {
+    color: #ebc;
+}
+
+.test {
+    display: block;
+    height: 100px
+}
+
+.test2 {
+    display: block;
+    height: 100px;
+}
+
+.frown {
+    font-weight:bold;
+    padding : 0;
+    margin :0;
+}
+
+.smile {
+    font-weight: bold;
+    padding: 0;
+    margin: 0;
+}
+
+.video-block{
+    margin: 0;
+}
+
+.audio-block
+{
+    margin: 0;
+}
+
+h1, h2, h3 {
+    font-weight: normal; line-height: 1.2;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: normal;
+    line-height: 1.2;
+}
+
+html {
+    background: #fff;
+}
+body {
+    margin: auto;
+    width: 50%;
+}
+
+footer {
+    font-family: 'Open Sans', arial, sans-serif;
+}
+
+header {
+    font-family: "Open Sans", arial, sans-serif;
+}

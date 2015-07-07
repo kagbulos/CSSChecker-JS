@@ -1,10 +1,11 @@
 //will hold all of our lines
 var linesArray=new Array();
+var lineNumber = 1; //holds the line number to be appended at the front
 
 window.onload = function() {
 	var fileInput = document.getElementById('fileInput');
 	var fileDisplayArea = document.getElementById('fileDisplayArea');
-	var lineNumber = 1; //holds the line number to be appended at the front
+	//var lineNumber = 1; //holds the line number to be appended at the front
 	var tempLineNumber = 0; //will be used to convert 1 into 01 etc.
 
 	//called whenever the user chooses a file to upload (checks to make sure that it is a css file)
@@ -37,6 +38,10 @@ window.onload = function() {
 			  	})
 			  	//once we have pushed the lines into linesArray then we run css checker
 			  	CSSChecker();
+			  	//need to reset lineNumber so when we pick another file the line number resets
+			  	lineNumber = 1;
+			  	//reset our filereader so when they click new file it changes and doesnt append prev file
+			  	//fileInput.files[0].reset();
 			}
 			//actually read the text file for processing
 			reader.readAsText(file);
@@ -62,7 +67,7 @@ function CSSChecker() {
 
 	//go through each line to be processed
 	linesArray.forEach(function(line) {
-		console.log(line);
+		//console.log(line); //prints every line to the console
 
 		if (endsEmptySpace(line)) //no line should ever end with white space
 		{
@@ -236,4 +241,9 @@ function CSSChecker() {
 
 	//now that we have a string of errors, add them to the web page
 	$( ".results" ).append(resultTxt);
+}
+
+function clearDisplayArea() {
+	$( "#fileDisplayArea" ).empty();
+	$( ".results" ).empty();
 }

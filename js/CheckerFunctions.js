@@ -347,7 +347,7 @@ function needsLeadingZero(propertyValue)
 
 	if (propertyValue.length > 0 && periodPosition != -1 && periodPosition != 0)
 	{
-		console.log(propertyValue[periodPosition-1] + "hi");
+		//console.log(propertyValue[periodPosition-1] + "hi");
 		if(isDigit(propertyValue[periodPosition-1])) //if we find 0-9, then it is valid to be put in front of a .
 		{
 			return false;

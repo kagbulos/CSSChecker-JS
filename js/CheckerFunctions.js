@@ -12,7 +12,7 @@ function isAlphaNumeric(char)
     }
   }
   return true;
-};
+}
 
 //tells you whether the character is alpha or not
 function isAlpha(char)
@@ -27,7 +27,7 @@ function isAlpha(char)
     }
   }
   return true;
-};
+}
 
 //tells you whether the character is a number or not
 function isDigit(char)
@@ -42,7 +42,7 @@ function isDigit(char)
     }
   }
   return true;
-};
+}
 
 //tells if the string has an upper case character or not
 function hasUpper (input)
@@ -183,7 +183,7 @@ function getPropertyValue(input)
 //checks the format of the line with a property and property value
 function hasProperPropertyAndValueFormat(input)
 {
-	if (input.length == 0 || hasUpper(input))
+	if (input.length === 0 || hasUpper(input))
 	{
 		return false;
 	}
@@ -196,7 +196,7 @@ function findIndentation(input)
 {
 	var count = 0;
 
-	if (input.length == 0)
+	if (input.length === 0)
 	{
 		return 0;
 	}
@@ -215,7 +215,7 @@ function isConjunctionSelector(input)
 	var foundPeriod = input.indexOf('.');
 	var foundHash = input.indexOf('#');
 	//return true when find a . or # within the selector AND its not at the beginning
-	if (input.length > 0 && ((foundPeriod != -1 && foundPeriod!=0) || (foundHash != -1 && foundHash!=0)))
+	if (input.length > 0 && ((foundPeriod != -1 && foundPeriod!==0) || (foundHash != -1 && foundHash!==0)))
 	{
 		return true;
 	}
@@ -345,7 +345,7 @@ function needsLeadingZero(propertyValue)
 {
 	var periodPosition = propertyValue.indexOf('.');
 
-	if (propertyValue.length > 0 && periodPosition != -1 && periodPosition != 0)
+	if (propertyValue.length > 0 && periodPosition != -1 && periodPosition !== 0)
 	{
 		//console.log(propertyValue[periodPosition-1] + "hi");
 		if(isDigit(propertyValue[periodPosition-1])) //if we find 0-9, then it is valid to be put in front of a .
@@ -505,10 +505,59 @@ function hasDoubleQuotes(input)
 function isValidLineAboveSelector(input)
 {
 	var commaPosition = input.indexOf(',');
-	if (commaPosition != -1 && input[input.length-1] == ',')
+	var otherCommaPosition = input.lastIndexOf(',');
+	if (commaPosition != -1 && input[input.length-1] == ',' && commaPosition == otherCommaPosition)
 	{
 		return true;
 	}
 	else
 		return false;
+}
+
+//tells you if the line is related to a comment or not
+function isCommentRelated(input)
+{
+	var openBlockPosition = input.indexOf("/*");
+	var closeBlockPosition = input.indexOf("*/");
+	if ((openBlockPosition != -1) || (closeBlockPosition != -1))
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+//tells you when you find open block comment
+function foundOpenBlockComment(input)
+{
+	var openBlockPosition = input.indexOf("/*");
+	if (openBlockPosition != -1)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+//tells you when you find close block comment
+function foundCloseBlockComment(input)
+{
+	var openBlockPosition = input.indexOf("*/");
+	if (openBlockPosition != -1)
+	{
+		return true;
+	}
+	else
+		return false;
+}
+
+//tells you if the line with */ has the correct format
+function hasCorrectCloseBlockFormat(input)
+{
+	if (input.length > 2)
+	{
+		return false;
+	}
+	else
+		return true;
 }

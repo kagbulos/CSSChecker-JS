@@ -137,3 +137,37 @@ footer {
 header {
     font-family: "Open Sans", arial, sans-serif;
 }
+
+/*comment here*/
+header {
+    /*comment here*/
+    font-family: "Open Sans", arial, sans-serif; /*comment here*/
+}
+
+/*multi
+line
+comment
+here
+*/
+.audio-pencil {
+    color: #ebc;
+}
+
+/*another
+*multi
+*line
+*comment
+*/
+.audio-pencil {
+    color: #ebc;
+}
+
+/*wrong
+*/comment
+
+/*wrong with no closing comment
+body {
+    margin: auto;
+    width: 50%;
+}
+

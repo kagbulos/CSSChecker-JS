@@ -35,29 +35,31 @@ window.onload = function() {
 			  			$("#fileDisplayArea").append(lineNumber + " " + line + "</br>");
 			  		}
 			  		lineNumber++;
-			  	})
+			  	});
 			  	//once we have pushed the lines into linesArray then we run css checker
 			  	CSSChecker();
 			  	//need to reset lineNumber so when we pick another file the line number resets
 			  	lineNumber = 1;
 			  	//reset our filereader so when they click new file it changes and doesnt append prev file
 			  	//fileInput.files[0].reset();
-			}
+			};
 			//actually read the text file for processing
 			reader.readAsText(file);
 		} else {
 			fileDisplayArea.innerText = "File not supported!";
 		}
 	});
-}
+};
 
 function CSSChecker() {
 	var foundIndentation = false; //will tell us once we find the expected indentation
 	var insideASelector = false; //tells you if you are inside a selector or not
 	var nextLineShouldBeEmpty = false; //tells us if the next line should be empty or not
+	var insideABlockComment = false; //tells you if you are in a block comment or not
 	var expectedNumSpaces = 0; //tells the number of spaces we expect
 	var lineNumber = 1; //tells the line number so we can print the line of the error
 	var setOfShorthand = new Set(); //contains a list of the shorthand properties we have seen so far inside a selector
+	var lastBlockOpen = 0; //temp value that holds the line number for the last block comment open
 	var property; //will hold the property we are looking at
 	var propertyValue; //will hold the value of the property we are looking at
 	var tempShortHand; //stores a temp value of the shorthand we are going to add
@@ -66,7 +68,8 @@ function CSSChecker() {
 	var errorTxt = ""; //will hold the error found
 
 	//go through each line to be processed
-	linesArray.forEach(function(line) {
+	linesArray.forEach(function(line)
+	{
 		//console.log(line); //prints every line to the console
 
 		if (endsEmptySpace(line)) //no line should ever end with white space
@@ -77,7 +80,7 @@ function CSSChecker() {
 
 		if (nextLineShouldBeEmpty) //if the next line should be empty, check it and then set next line should be empty to false
 		{
-			if (line.length != 0)
+			if (line.length !== 0)
 			{
 				errorTxt = lineNumber + " should be empty because it followed a closing selector</br>";
             	resultTxt += errorTxt;
@@ -145,7 +148,7 @@ function CSSChecker() {
 			insideASelector = false; //now that we are found a closing selector, we are no longer inside a selector
 			nextLineShouldBeEmpty = true; //now that we found a closing selector, expect there to be a space on the next line
 		}
-		else if (line.length == 0) //will catch all the blank lines so they don't go to the section for processing properties and values
+		else if (line.length === 0) //will catch all the blank lines so they don't go to the section for processing properties and values
 		{
 		}
 		else if(insideASelector) //you are inside the selector i.e. background: #fff;
@@ -153,7 +156,7 @@ function CSSChecker() {
 			property = getProperty(line);
 			propertyValue = getPropertyValue(line);
 
-			if (missingSemicolon(line) && !isIDorClass(line)) //have to add !isIDorClass(line) in case where formatting is off and .audio-block and { are on separate lines
+			if (missingSemicolon(line) && !isIDorClass(line) && !isCommentRelated(line)) //have to add !isIDorClass(line) in case where formatting is off and .audio-block and { are on separate lines
 			{
 				errorTxt = "Missing a semicolon on line " + lineNumber + "</br>";
             	resultTxt += errorTxt;
@@ -229,15 +232,59 @@ function CSSChecker() {
 		}
 		else //section that handles lines above the selector { i.e. h1,h2,h3 should be spanning multiple lines
 		{
-			 if (!isValidLineAboveSelector(line)) //valid lines above the selector are of the form h1,
-			 {
-				errorTxt = "Not a valid line above a selector on line " + lineNumber + "</br>";
-            	resultTxt += errorTxt;
-			 }
+			if (isCommentRelated(line) || insideABlockComment) // [/*] [*/] [ *] [string] are all valid ways to be related to a comment
+			{
+				if (startsEmptySpace(line)) //comment lines should never start with a space
+				{
+					errorTxt = "Comment related line shouldn't start with a space found on line " + lineNumber + "</br>";
+	            	resultTxt += errorTxt;
+				}
+
+				if (foundOpenBlockComment(line)) //marking that you are inside a block comment
+				{
+					if (insideABlockComment) {
+						errorTxt = "There was a block comment on line " + lastBlockOpen + " that was never closed</br>";
+	        			resultTxt += errorTxt;
+					}
+
+					insideABlockComment = true;
+					lastBlockOpen = lineNumber;
+				}
+
+				if (foundCloseBlockComment(line)) //marking that you are ending a block comment
+				{
+					if (!insideABlockComment)
+					{
+						errorTxt = "Found a closing block comment before an open block comment on line " + lineNumber + "</br>";
+	            		resultTxt += errorTxt;
+					}
+
+					if (!hasCorrectCloseBlockFormat(line) && !foundOpenBlockComment(line)) //if you dont find a /* on same line as */ then then line should be empty
+					{
+						errorTxt = "There shouldn't be anything more on the line with a */ on line " + lineNumber + "</br>";
+	            		resultTxt += errorTxt;
+					}
+					insideABlockComment = false;
+				}
+			}
+			else
+			{
+				if (!isValidLineAboveSelector(line)) //valid lines above the selector are of the form h1,
+				{
+					errorTxt = "Not a valid line above a selector on line " + lineNumber + "</br>";
+	            	resultTxt += errorTxt;
+				}
+			}
+		}
+
+		//case where you have reached the end of the file and you are still inside a block comment! needs to have a closing block comment
+		if (lineNumber == linesArray.length && insideABlockComment) {
+			errorTxt = "There was a block comment on line " + lastBlockOpen + " that was never closed</br>";
+	        resultTxt += errorTxt;
 		}
 
 		lineNumber++;
-	})
+	});
 
 	//now that we have a string of errors, add them to the web page
 	$( ".results" ).append(resultTxt);

@@ -47,6 +47,8 @@ window.onload = function() {
 			  	linesArray = [];
 			  	//nextLineShouldBeEmpty needs to be reset because we are looking at a new file
 			  	nextLineShouldBeEmpty = false;
+			  	//insideABlockComment needs to be reset now that we are looking at a new file
+			  	insideABlockComment = false;
 			};
 			//actually read the text file for processing
 			reader.readAsText(file);

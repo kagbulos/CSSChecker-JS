@@ -1,7 +1,7 @@
 html {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 100%;
-  background: #333;
+  background: #ff8c00;
 }
 
 #page-wrapper {
@@ -10,7 +10,6 @@ html {
   padding: 1em;
   margin: 1em auto;
   min-height: 300px;
-  border-top: 5px solid #69c773;
   box-shadow: 0 2px 10px rgba(0,0,0,0.8);
 }
 

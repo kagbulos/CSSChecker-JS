@@ -7,11 +7,11 @@ Email:kagbulos1@gmail.com
 
 Date
 ----
-7/6/15
+7/10/15
 
 Description
 -----------
-This is a singlepage Javascript application that checks if a CSS file adheres to the Udacity style guidelines (http://udacity.github.io/frontend-nanodegree-styleguide/css.html). When the application finds an error, the error and corresponding line number are printed in the results section. A comprehensive sample file (test.css in the folder labeled test css) is provided in the repository and can be used with the application to see what errors are found as well as the format of the output.
+This is a singlepage Javascript application that checks if a CSS file adheres to the Udacity style guidelines (http://udacity.github.io/frontend-nanodegree-styleguide/css.html). When the application finds an error, the error and corresponding line number are printed in the results section. The code is printed in a blue color, the errors are printed in a red color, and the warnings are printed in a purple color. A comprehensive sample file (test.css in the folder labeled test css) is provided in the repository and can be used with the application to see what errors are found as well as the format of the output.
 
 How to use
 -----------
@@ -32,3 +32,10 @@ Prospective Changes
 -Potentially incorporate Knockout and implement a MVVM model
 -Add a clear button
 -Change the CSS to make it more aesthetically pleasing
+
+Changes Log
+-----------
+-added comment handler
+-fixed bugs for multiple file input
+-changed background to be same color as udacity logo
+-added a clear button

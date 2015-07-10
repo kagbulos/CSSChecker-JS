@@ -27,3 +27,7 @@ img {
   width: 100%;
   overflow-x: auto;
 }
+
+.fromFile {
+  color: #00f;
+}

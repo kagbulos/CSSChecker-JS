@@ -29,6 +29,7 @@ window.onload = function() {
 			  		if (lineNumber < 10) {
 			  			tempLineNumber = "0" + lineNumber;
 			  			$("#fileDisplayArea").append(tempLineNumber + " " + line + "</br>");
+			  			//$("#fileDisplayArea").append("<div class = 'fromFile'>" + tempLineNumber + " " + line + "</div></br>"); HAS COLORS
 			  		}
 			  		else
 			  		{

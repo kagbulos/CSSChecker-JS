@@ -31,3 +31,11 @@ img {
 .fromFile {
   color: #00f;
 }
+
+.errors {
+  color: #f00;
+}
+
+.warning {
+  color: #90c;
+}

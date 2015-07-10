@@ -88,7 +88,7 @@ function curlyAndSpaceChecker(input)
 //checks if there is any empty space at the end of the string
 function endsEmptySpace(input)
 {
-	if (input.length > 0 && input[input.length-1] == ' ')
+	if (input !== "" && input.length > 0 && input[input.length-1] == ' ')
 	{
 		return true;
 	}

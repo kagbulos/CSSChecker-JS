@@ -17,10 +17,12 @@ var fileInput = document.getElementById('fileInput');
 var fileDisplayArea = document.getElementById('fileDisplayArea');
 
 window.onload = function() {
-	var tempLineNumber = 0; //will be used to convert 1 into 01 etc.
+	//var tempLineNumber = 0; //will be used to convert 1 into 01 etc.
 
 	//called whenever the user chooses a file to upload (checks to make sure that it is a css file)
 	fileInput.addEventListener('change', function(e) {
+		var tempLineNumber = 0; //will be used to convert 1 into 01 etc.
+		lineNumber = 1;
 		var file = fileInput.files[0];
 		var textType = /css.*/;
 
@@ -40,6 +42,11 @@ window.onload = function() {
 			  	linesArray.forEach(function(line){
 			  		CSSChecker(line);
 			  	});
+
+			  	//now that we are done processing the array, clear the contents for the next file to be read
+			  	linesArray = [];
+			  	//nextLineShouldBeEmpty needs to be reset because we are looking at a new file
+			  	nextLineShouldBeEmpty = false;
 			};
 			//actually read the text file for processing
 			reader.readAsText(file);
@@ -279,4 +286,5 @@ function CSSChecker(line) {
 function clearDisplayArea() {
 	$( "#fileDisplayArea" ).empty();
 	$( ".results" ).empty();
+	lineNumber = 1; //reset the numbers so when the next file is picked the numbers reset
 }

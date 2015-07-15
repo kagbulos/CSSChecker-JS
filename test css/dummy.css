@@ -1,16 +1,70 @@
-.audio-block {
-    border-top: E;
+* {
+	font-family: Verdana, sans-serif;
 }
 
-#example {
-    border-top: 0em;
-    padding: .8;
-    margin: 100;
-    font-size: 0.8em;
-    color: #EEFF56;
-    display: block;
-    height: 100px;
-    font-weight: "bold";
-    padding : 0;
-    margin :0;
+h1 {
+	color: #666;
+	padding-top: 27px;
+	padding-left: 241px;
+	padding-bottom: 19px;
+	font-size: 48px;
+}
+
+p {
+	color: #666;
+	line-height: 2;
+	font-size: 16px;
+}
+
+h2 {
+	color: #f07c17;
+	margin-top: 0px;
+	font-size: 24px;
+}
+
+ul {
+	color: #666;
+	padding-top: 20px;
+	padding-left: 40px;
+	line-height: 2;
+	font-size: 16px;
+}
+
+.mugpic {
+	border: solid 1px #ccc;
+	height: 375px;
+	width: 375px;
+}
+
+.features {
+	border: solid 1px #ccc;
+	height: 225px;
+	width: 375px;
+	margin-top: 28px;
+	padding-left: 30px;
+	padding-top: 30px;
+	font-size: 18px;
+}
+
+.container {
+	margin-left: 26px;
+}
+
+.col-md-5 {
+	width: 405px;
+}
+
+.col-md-7 {
+	width: 565px;
+}
+
+#rightheader {
+	padding-bottom: 20px;
+}
+
+.mockup-overlay {
+    top: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0.4;
 }

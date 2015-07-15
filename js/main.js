@@ -23,6 +23,8 @@ window.onload = function() {
 	fileInput.addEventListener('change', function(e) {
 		var tempLineNumber = 0; //will be used to convert 1 into 01 etc.
 		lineNumber = 1;
+		expectedNumSpaces = 0;
+		foundIndentation = false;
 		var file = fileInput.files[0];
 		var textType = /css.*/;
 
@@ -62,7 +64,7 @@ window.onload = function() {
 function CSSChecker(line) {
 	if (endsEmptySpace(line)) //no line should ever end with white space
 	{
-		errorTxt = lineNumber + " Ends with an empty space";
+		errorTxt = "Ends with an empty space.";
         lineToPrint += " " + errorTxt;
 	}
 
@@ -70,7 +72,7 @@ function CSSChecker(line) {
 	{
 		if (line.length !== 0)
 		{
-			errorTxt = lineNumber + " should be empty because it followed a closing selector";
+			errorTxt = "Should be empty because it followed a closing selector.";
         	lineToPrint += " " + errorTxt;
 		}
 		nextLineShouldBeEmpty = false;
@@ -82,37 +84,37 @@ function CSSChecker(line) {
 	{
 		if (insideASelector) //you are already inside a selector and shouldnt find another {
 		{
-			errorTxt = "Ran into another { before found a closing } on line " + lineNumber;
+			errorTxt = "Ran into another { before found a closing }.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (isConjunctionSelector(line)) //error if you find something like ul#example
 		{
-			errorTxt = "Using a conjunction of element names and IDs/classes " + lineNumber;
+			errorTxt = "Using a conjunction of element names and IDs/classes.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (isIDSelector(line)) //classes should be used over IDs
 		{
-			errorTxt = "An ID selector is being used on " + lineNumber + " and a class should be used instead";
+			errorTxt = "An ID selector is being used and a class should be used instead.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (!hasProperSelectorFormat(line)) //must contain correct format .demo-image {
 		{
-			errorTxt = "Selector formatting problem on line " + lineNumber;
+			errorTxt = "Selector formatting problem.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (incorrectSeparateDelimiters(line)) //must use - instead of _
 		{
-			errorTxt = "<span class = 'warning'>A _ was detected in the selector and a - should be used instead on line " + lineNumber + "</span>";
+			errorTxt = "<span class = 'warning'>A _ was detected in the selector and a - should be used instead.</span>";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (hasMultipleSelectors(line)) //h1, h2, h3 { should span multiple lines
 		{
-			errorTxt = "There are multiple selectors on line " + lineNumber + " and each selector should have it's own line";
+			errorTxt = "There are multiple selectors and each selector should have it's own line.";
         	lineToPrint += " " + errorTxt;
 		}
 
@@ -122,13 +124,13 @@ function CSSChecker(line) {
 	{
 		if (!insideASelector) //shouldn't run into a } before we cound a {
 		{
-			errorTxt = "Found a closing } but doesnt have a matching {  on line " + lineNumber;
+			errorTxt = "Found a closing } but doesnt have a matching {.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (!hasProperClosingSelectorFormat(line)) //should only be a } in the line
 		{
-			errorTxt = "Closing selector formatting problem on line " + lineNumber;
+			errorTxt = "Closing selector formatting problem.";
         	lineToPrint += " " + errorTxt;
 		}
 
@@ -146,13 +148,13 @@ function CSSChecker(line) {
 
 		if (missingSemicolon(line) && !isIDorClass(line) && !isCommentRelated(line)) //have to add !isIDorClass(line) in case where formatting is off and .audio-block and { are on separate lines
 		{
-			errorTxt = "Missing a semicolon on line " + lineNumber;
+			errorTxt = "Missing a semicolon.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (incorrectPropertyNameStop(line)) //case where have incorrect form of property name stop i.e. a:b
 		{
-			errorTxt = "The format of the property and value is incorrect on line " + lineNumber + ". It should be of the form a: b";
+			errorTxt = "The format of the property and value is incorrect. It should be of the form a: b.";
         	lineToPrint += " " + errorTxt;
 		}
 
@@ -164,7 +166,7 @@ function CSSChecker(line) {
 
 		if (findIndentation(line) != expectedNumSpaces && !isIDorClass(line)) //if the line doesn't match the same number of spaces as the first line, then indentation error
 		{
-			errorTxt = "The level of indentation/spaces is off on line " + lineNumber;
+			errorTxt = "The level of indentation/spaces is off.";
         	lineToPrint += " " + errorTxt;
 		}
 
@@ -173,7 +175,7 @@ function CSSChecker(line) {
 			tempShortHand = shorthandToAdd(property); //tells you which property to add to set (given that only a couple can be written in shorthand)
 			if (setOfShorthand.has(tempShortHand)) //we have already seen a shorthand property of this kind
 			{
-				errorTxt = "The property on line " + lineNumber + " can be written in shorthand";
+				errorTxt = "The property can be written in shorthand.";
         		lineToPrint += " " + errorTxt;
 			}
 			else //haven't seen this property before
@@ -184,37 +186,37 @@ function CSSChecker(line) {
 
 		if (!hasProperPropertyAndValueFormat(line) && !hasSingleQuotes(propertyValue) && !hasDoubleQuotes(propertyValue)) //check if it has the proper format but don't count strings for upper case
 		{
-			errorTxt = "Property or value has formatting problem on line " + lineNumber;
+			errorTxt = "Property or value has formatting problem.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (isZeroAndUnits(propertyValue)) // 0em; should be 0;
 		{
-			errorTxt = "Property value has formatting problem on line " + lineNumber + ". Values with 0 should have no units";
+			errorTxt = "Property value has formatting problem. Values with 0 should have no units.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (needsLeadingZero(propertyValue)) //if anything other than 0-9 in front of the . then error
 		{
-			errorTxt = "Property value has a . and should have a 0 in front of it on line " + lineNumber;
+			errorTxt = "Property value has a . and should have a 0 in front of it.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (hasHexadecimal(propertyValue) && canReplaceHexadecimal(propertyValue)) //color: #eebbcc; is an error and should be color: #ebc;
 		{
-			errorTxt = "Property value has a hexadecimal value that can be rewritten as 3-characters hexadecimal notation on line " + lineNumber;
+			errorTxt = "Property value has a hexadecimal value that can be rewritten as 3-characters hexadecimal notation.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (hasMultipleDeclarations(propertyValue)) //cases like font-weight: normal; line-height: 1.2; should span multiple lines
 		{
-			errorTxt = "There are multiple declarations on line " + lineNumber + " and each declaration should have its own line";
+			errorTxt = "There are multiple declarations and each declaration should have its own line.";
         	lineToPrint += " " + errorTxt;
 		}
 
 		if (hasSingleQuotes(propertyValue)) //font-family: 'Open Sans' should be font-family: "Open Sans"
 		{
-			errorTxt = "There are single quotes on line " + lineNumber + " and double quotes should be used instead";
+			errorTxt = "There are single quotes and double quotes should be used instead.";
         	lineToPrint += " " + errorTxt;
 		}
 	}
@@ -224,14 +226,14 @@ function CSSChecker(line) {
 		{
 			if (startsEmptySpace(line)) //comment lines should never start with a space
 			{
-				errorTxt = "Comment related line shouldn't start with a space found on line " + lineNumber;
+				errorTxt = "Comment related line shouldn't start with a space.";
             	lineToPrint += " " + errorTxt;
 			}
 
 			if (foundOpenBlockComment(line)) //marking that you are inside a block comment
 			{
 				if (insideABlockComment) { //case where you found an open block comment before you found a closing one
-					errorTxt = "There was a block comment on line " + lastBlockOpen + " that was never closed";
+					errorTxt = "There was a block comment on line " + lastBlockOpen + " that was never closed.";
         			lineToPrint += " " + errorTxt;
 				}
 
@@ -243,13 +245,13 @@ function CSSChecker(line) {
 			{
 				if (!insideABlockComment) //case where you found a closing block comment before you found an opening block comment
 				{
-					errorTxt = "Found a closing block comment before an open block comment on line " + lineNumber;
+					errorTxt = "Found a closing block comment before an open block comment.";
             		lineToPrint += " " + errorTxt;
 				}
 
 				if (!hasCorrectCloseBlockFormat(line) && !foundOpenBlockComment(line)) //if you dont find a /* on same line as */ then then line should be empty
 				{
-					errorTxt = "There shouldn't be anything more on the line with a */ on line " + lineNumber;
+					errorTxt = "There shouldn't be anything more on the line with a */ .";
             		lineToPrint += " " + errorTxt;
 				}
 				insideABlockComment = false;
@@ -259,7 +261,7 @@ function CSSChecker(line) {
 		{
 			if (!isValidLineAboveSelector(line)) //valid lines above the selector are of the form h1,
 			{
-				errorTxt = "Not a valid line above a selector on line " + lineNumber;
+				errorTxt = "Not a valid line above a selector.";
             	lineToPrint += " " + errorTxt;
 			}
 		}
@@ -267,7 +269,7 @@ function CSSChecker(line) {
 
 	//case where you have reached the end of the file and you are still inside a block comment! needs to have a closing block comment
 	if (lineNumber == linesArray.length && insideABlockComment) {
-		errorTxt = "There was a block comment on line " + lastBlockOpen + " that was never closed";
+		errorTxt = "There was a block comment on line " + lastBlockOpen + " that was never closed.";
         lineToPrint += " " + errorTxt;
 	}
 
